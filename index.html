@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>اختبار درجة الصداقة ومستوى الحظر 💖</title>
   
-  <!-- Open Graph Meta Tags لمعاينة الواتساب والستوري -->
+  <!-- Open Graph Meta Tags للمعاينة والستوري -->
   <meta property="og:title" content="اختبار الصداقة والحظر 🚫💕 - هل ستقوم بحظرك؟">
-  <meta property="og:description" content="اضغط هنا وادخل جاوب على الأسئلة واكتشف هل صاحبك هيحظرك ولا هعتبرك صديق العمر! 🎯">
+  <meta property="og:description" content="ادخل جاوب على الأسئلة واكتشف هل صاحبك هيحظرك ولا هعتبرك صديق العمر! 🎯">
   <meta property="og:image" content="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop&q=80">
   <meta property="og:type" content="website">
 
@@ -47,13 +47,13 @@
       <div class="form-group">
         <label>اختر عدد الأسئلة:</label>
         <div class="count-selector">
-          <button class="count-btn active" onclick="selectCount(10)">10 أسئلة</button>
-          <button class="count-btn" onclick="selectCount(15)">15 سؤال</button>
-          <button class="count-btn" onclick="selectCount(20)">20 سؤال</button>
+          <button type="button" class="count-btn active" onclick="selectCount(10)">10 أسئلة</button>
+          <button type="button" class="count-btn" onclick="selectCount(15)">15 سؤال</button>
+          <button type="button" class="count-btn" onclick="selectCount(20)">20 سؤال</button>
         </div>
       </div>
 
-      <button class="primary-btn" onclick="startCreatingQuiz()">ابدأ اختيار الإجابات 🚀</button>
+      <button type="button" class="primary-btn" onclick="startCreatingQuiz()">ابدأ اختيار الإجابات 🚀</button>
     </div>
 
     <!-- شاشة إنشاء الأسئلة -->
@@ -64,18 +64,18 @@
       <div id="creator-options-container" class="options-grid"></div>
     </div>
 
-    <!-- شاشة إتمام الاختبار والحصول على الرابط القصير -->
+    <!-- شاشة إتمام الاختبار والحصول على الرابط -->
     <div id="share-screen" class="card">
       <div class="success-icon">🎉</div>
       <h2>جاهز للنشر! 📲</h2>
-      <p>تم اختصار الرابط تلقائياً! انسخه ونزله في ستوري الواتساب:</p>
+      <p>تم تجهيز الرابط الخاص بك! انسخه ونزله في ستوري الواتساب:</p>
       
       <div class="link-box">
-        <input type="text" id="quiz-link-input" readonly value="جاري اختصار الرابط...">
-        <button onclick="copyQuizLink()" class="copy-btn">نسخ 📋</button>
+        <input type="text" id="quiz-link-input" readonly value="جاري معالجة الرابط...">
+        <button type="button" onclick="copyQuizLink()" class="copy-btn">نسخ 📋</button>
       </div>
 
-      <button onclick="shareToWhatsApp()" class="whatsapp-btn">مشاركة مباشرة على الواتساب 🟢</button>
+      <button type="button" onclick="shareToWhatsApp()" class="whatsapp-btn">مشاركة مباشرة على الواتساب 🟢</button>
     </div>
 
     <!-- شاشة دخول الصديق -->
@@ -89,7 +89,7 @@
         <input type="text" id="taker-name" placeholder="اسمك إيه؟..." maxlength="20">
       </div>
 
-      <button class="primary-btn" onclick="startTakingQuiz()">ابدأ الاختبار الآن 🎯</button>
+      <button type="button" class="primary-btn" onclick="startTakingQuiz()">ابدأ الاختبار الآن 🎯</button>
     </div>
 
     <!-- شاشة إجابة الصديق -->
@@ -118,9 +118,9 @@
       </div>
 
       <div class="action-buttons">
-        <button onclick="downloadStoryCard()" class="secondary-btn story-btn">📸 تحميل كارت للستوري</button>
-        <button onclick="shareResultWhatsApp()" class="whatsapp-btn">إرسال النتيجة للصديق 🟢</button>
-        <button onclick="createNewQuizForSelf()" class="primary-btn">أنشئ اختبارك أنت أيضاً 🚀</button>
+        <button type="button" onclick="downloadStoryCard()" class="secondary-btn story-btn">📸 تحميل كارت للستوري</button>
+        <button type="button" onclick="shareResultWhatsApp()" class="whatsapp-btn">إرسال النتيجة للصديق 🟢</button>
+        <button type="button" onclick="createNewQuizForSelf()" class="primary-btn">أنشئ اختبارك أنت أيضاً 🚀</button>
       </div>
 
       <div class="leaderboard-section">
