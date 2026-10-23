@@ -1,18 +1,16 @@
-// app.js - التحكم الكامل في التطبيق والتفاعل
-
 let quizConfig = {
   creatorName: "",
   gender: "male",
   questionCount: 10,
-  answers: [] // مصفوفة الإجابات المختارة
+  answers: []
 };
 
-let activeQuizData = null; // بيانات الاختبار عند فتح رابط مجيب
+let activeQuizData = null;
 let currentQuestionIndex = 0;
 let takerAnswers = [];
 let takerName = "";
+let finalShortUrl = "";
 
-// 1. تحديد النوع والعدد
 function selectGender(g) {
   quizConfig.gender = g;
   document.getElementById('gender-male').className = 'gender-btn ' + (g === 'male' ? 'active-male' : '');
@@ -23,10 +21,11 @@ function selectCount(count) {
   quizConfig.questionCount = count;
   const btns = document.querySelectorAll('.count-btn');
   btns.forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  if (event && event.target) {
+    event.target.classList.add('active');
+  }
 }
 
-// 2. البدء في إنشاء الاختبار
 function startCreatingQuiz() {
   const nameInput = document.getElementById('creator-name').value.trim();
   if (!nameInput) {
@@ -54,6 +53,7 @@ function renderCreatorQuestion() {
 
   q.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'option-btn';
     btn.innerText = opt;
     btn.onclick = () => saveCreatorAnswer(idx);
@@ -72,29 +72,42 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
-// 3. تشفير الاختبار وإنشاء الرابط
-function finishQuizCreation() {
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
-  const shareUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
-
-  document.getElementById('quiz-link-input').value = shareUrl;
+async function finishQuizCreation() {
   showScreen('share-screen');
+  const inputEl = document.getElementById('quiz-link-input');
+  inputEl.value = "جاري اختصار الرابط... ⏳";
+
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
+  const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
+
+  try {
+    const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
+    if (response.ok) {
+      finalShortUrl = await response.text();
+      inputEl.value = finalShortUrl;
+    } else {
+      finalShortUrl = longUrl;
+      inputEl.value = longUrl;
+    }
+  } catch (e) {
+    finalShortUrl = longUrl;
+    inputEl.value = longUrl;
+  }
 }
 
 function copyQuizLink() {
   const input = document.getElementById('quiz-link-input');
   input.select();
   document.execCommand('copy');
-  alert("تم نسخ رابط الاختبار بنجاح! 📋");
+  alert("تم نسخ الرابط بنجاح! 📋");
 }
 
 function shareToWhatsApp() {
-  const link = document.getElementById('quiz-link-input').value;
+  const link = finalShortUrl || document.getElementById('quiz-link-input').value;
   const text = `أنا ${quizConfig.creatorName} عملت اختبار درجة الصداقة ومستوى الحظر! 🚫💕\nادخل جاوب وشوف هتحظر ولا لأ: 👇\n${link}`;
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
-// 4. تحميل الاختبار عند فتح رابط صديق
 window.onload = function() {
   const hash = window.location.hash;
   if (hash.includes('#quiz=')) {
@@ -136,6 +149,7 @@ function renderTakerQuestion() {
 
   q.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'option-btn';
     btn.innerText = opt;
     btn.onclick = () => saveTakerAnswer(idx);
@@ -154,7 +168,6 @@ function saveTakerAnswer(optionIdx) {
   }
 }
 
-// 5. حساب النتيجة وحفظها في المتصدرين
 function calculateResult() {
   let correct = 0;
   const total = activeQuizData.answers.length;
@@ -165,7 +178,6 @@ function calculateResult() {
 
   const percentage = Math.round((correct / total) * 100);
 
-  // تحديث كارت النتيجة
   document.getElementById('res-names').innerText = `${takerName} ✖️ ${activeQuizData.creatorName}`;
   document.getElementById('res-score-percent').innerText = `${percentage}%`;
 
@@ -189,14 +201,12 @@ function calculateResult() {
   document.getElementById('res-status-title').innerText = statusTitle;
   document.getElementById('res-status-desc').innerText = statusDesc;
 
-  // حفظ النتيجة محلياً للقائمة
   saveToLeaderboard(activeQuizData.creatorName, takerName, percentage);
   renderLeaderboard(activeQuizData.creatorName);
 
   showScreen('result-screen');
 }
 
-// 6. توليد صورة كارت الستوري
 function downloadStoryCard() {
   const cardBox = document.getElementById('story-card');
   html2canvas(cardBox).then(canvas => {
@@ -205,6 +215,11 @@ function downloadStoryCard() {
     link.href = canvas.toDataURL();
     link.click();
   });
+}
+
+function shareResultWhatsApp() {
+  const text = `أنا ${takerName} عملت اختبار ${activeQuizData.creatorName} وجبت ${document.getElementById('res-score-percent').innerText}! 😎🔥`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 function saveToLeaderboard(creator, taker, score) {
