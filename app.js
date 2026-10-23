@@ -72,35 +72,42 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
-// اختصار الرابط باستخدام خدمة is.gd الموثوقة مع التجاوز
+// دالة سريعة جداً مع نظام مهلة (Timeout) لضمان ظهور الرابط فوريًا بدون تعليق
 async function finishQuizCreation() {
   showScreen('share-screen');
   const inputEl = document.getElementById('quiz-link-input');
-  inputEl.value = "جاري اختصار الرابط الشيك... ⏳";
+  inputEl.value = "جاري تجهيز الرابط الشيك... ⚡";
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
   const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
+  
+  let shortUrl = longUrl;
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1500); // أقصى وقت انتظار 1.5 ثانية فقط
+
     const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`;
-    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`);
+    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
     const data = await response.json();
     const parsedData = JSON.parse(data.contents);
 
     if (parsedData.shorturl) {
-      finalShortUrl = parsedData.shorturl;
-      inputEl.value = finalShortUrl;
-    } else {
-      finalShortUrl = longUrl;
-      inputEl.value = longUrl;
+      shortUrl = parsedData.shorturl;
     }
   } catch (e) {
-    finalShortUrl = longUrl;
-    inputEl.value = longUrl;
+    shortUrl = longUrl; // استخدام الرابط المباشر فوراً لو حصل أي تأخير
   }
+
+  finalShortUrl = shortUrl;
+  inputEl.value = finalShortUrl;
+  // ضبط المؤشر وعرض بداية الرابط بوضوح
+  inputEl.scrollLeft = 0;
+  inputEl.setSelectionRange(0, 0);
 }
 
-// نص الدعوة المباشر والشيك للستوري والواتساب
 function getShareText() {
   const link = finalShortUrl || document.getElementById('quiz-link-input').value;
   const isFemale = quizConfig.gender === 'female';
@@ -115,7 +122,7 @@ function getShareText() {
 function copyQuizLink() {
   const shareText = getShareText();
   navigator.clipboard.writeText(shareText).then(() => {
-    alert("تم نسخ كلام الدعوة مع الرابط المختصر! تقدر تنزله ستوري فوراً 📋✨");
+    alert("تم نسخ رسالة الدعوة والابط بنجاح! تقدر تنزلها ستوري فوراً 📋✨");
   }).catch(() => {
     const input = document.getElementById('quiz-link-input');
     input.select();
