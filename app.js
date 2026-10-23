@@ -10,6 +10,7 @@ let activeQuizData = null;
 let currentQuestionIndex = 0;
 let takerAnswers = [];
 let takerName = "";
+let finalShortUrl = "";
 
 function selectGender(g) {
   quizConfig.gender = g;
@@ -73,21 +74,39 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
-// توليد الرابط فوراً وبدون أي تأخير
-function finishQuizCreation() {
+// توليد الرابط فوراً في الحال، ومحاولة اختصاره في الخلفية بسلاسة
+async function finishQuizCreation() {
   showScreen('share-screen');
   const inputEl = document.getElementById('quiz-link-input');
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
-  const fullUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
+  const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
   
-  inputEl.value = fullUrl;
+  // تعيين الرابط الأساسي فوراً لكي يظهر للمستخدم في نفس الثانية بدون أي انتظار
+  finalShortUrl = longUrl;
+  inputEl.value = longUrl;
   inputEl.scrollLeft = 0;
+
+  // محاولة الاختصار في الخلفية بدون تجميد الصفحة
+  try {
+    const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`;
+    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`);
+    const data = await response.json();
+    const parsedData = JSON.parse(data.contents);
+
+    if (parsedData.shorturl) {
+      finalShortUrl = parsedData.shorturl;
+      inputEl.value = finalShortUrl; // تحديث الخانة بالرابط القصير تلقائياً فور توفره
+      inputEl.scrollLeft = 0;
+    }
+  } catch (e) {
+    console.log("تم الاكتفاء بالرابط الأساسي.");
+  }
 }
 
 // رسالة الدعوة الشيك بالصيغة المطلوبة مع رقم الاختبار المميز
 function getShareText() {
-  const link = document.getElementById('quiz-link-input').value;
+  const link = finalShortUrl || document.getElementById('quiz-link-input').value;
   const isFemale = quizConfig.gender === 'female';
   const qId = quizConfig.quizId;
   
