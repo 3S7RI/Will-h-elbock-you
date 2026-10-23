@@ -10,7 +10,6 @@ let activeQuizData = null;
 let currentQuestionIndex = 0;
 let takerAnswers = [];
 let takerName = "";
-let finalShortUrl = "";
 
 function selectGender(g) {
   quizConfig.gender = g;
@@ -34,7 +33,7 @@ function startCreatingQuiz() {
     return;
   }
   quizConfig.creatorName = nameInput;
-  quizConfig.quizId = Math.floor(1000 + Math.random() * 9000); // رقم فريد ومميز لكل اختبار
+  quizConfig.quizId = Math.floor(1000 + Math.random() * 9000); // رقم فريد لكل اختبار
   quizConfig.answers = [];
   currentQuestionIndex = 0;
 
@@ -74,53 +73,52 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
-// توليد الرابط فوراً في الحال، ومحاولة اختصاره في الخلفية بسلاسة
-async function finishQuizCreation() {
+function finishQuizCreation() {
   showScreen('share-screen');
   const inputEl = document.getElementById('quiz-link-input');
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
-  const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
+  const fullUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
   
-  // تعيين الرابط الأساسي فوراً لكي يظهر للمستخدم في نفس الثانية بدون أي انتظار
-  finalShortUrl = longUrl;
-  inputEl.value = longUrl;
+  inputEl.value = fullUrl;
   inputEl.scrollLeft = 0;
-
-  // محاولة الاختصار في الخلفية بدون تجميد الصفحة
-  try {
-    const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`;
-    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`);
-    const data = await response.json();
-    const parsedData = JSON.parse(data.contents);
-
-    if (parsedData.shorturl) {
-      finalShortUrl = parsedData.shorturl;
-      inputEl.value = finalShortUrl; // تحديث الخانة بالرابط القصير تلقائياً فور توفره
-      inputEl.scrollLeft = 0;
-    }
-  } catch (e) {
-    console.log("تم الاكتفاء بالرابط الأساسي.");
-  }
 }
 
-// رسالة الدعوة الشيك بالصيغة المطلوبة مع رقم الاختبار المميز
+// نماذج الرسائل المتنوعة والجذابة (أولاد وبنات)
 function getShareText() {
-  const link = finalShortUrl || document.getElementById('quiz-link-input').value;
+  const link = document.getElementById('quiz-link-input').value;
   const isFemale = quizConfig.gender === 'female';
+  const name = quizConfig.creatorName;
   const qId = quizConfig.quizId;
-  
-  if (isFemale) {
-    return `✨ اختبار الصداقة ومستوى الحظر 💕 (اختبار رقم #${qId})\n\nأنا ${quizConfig.creatorName} عملت لكم اختبار إجاباته عني! 🙈🌸\nمين أكتر أخت وصاحبة فاهماني ومين هتاخد بلوك وتتحظر؟ 🚫👀\n\nادخلي اختبري نفسك ورجيني النتيجة من هنا: 👇\n${link}`;
-  } else {
-    return `🔥 اختبار درجة الصداقة ومستوى الحظر 🚫 (اختبار رقم #${qId})\n\nأنا ${quizConfig.creatorName} عملت اختبار تفاصيل ومعلومات عني! 😎\nتفتكر صاحب عمر وجدع وفاهم كل حاجة ولا على وشك البلوك؟ 🛑💣\n\nادخل جاوب وشوف درجتك فوراً من هنا: 👇\n${link}`;
-  }
+
+  // نماذج الأولاد
+  const maleMessages = [
+    `🔥 تحدي الصداقة الصعبة! (#${qId})\n\nصاحبي ${name} عمل اختبار تفاصيل عن حياته وسلوكه! 😎\nتفتكر أنت صاحب عمر وجدع بجد ولا آخرتك بلوك وحظر؟ 🚫💥\n\nادخل أثبت نفسك واعرف درجتك فوراً من هنا: 👇\n${link}`,
+    
+    `💣 مين الجدع الفاهم ومين هينزل بلوك؟ (#${qId})\n\nعملت لكم اختبار خفيف عني أنا (${name})! 🎯\nلو فاكر إنك عارف أكلاتي وخروجاتي ومزاجي، ادخل جاوب وشوف هتاخد كام من 100%! 🚀\n\nالرابط من هنا: 👇\n${link}`,
+
+    `⚡ اختبار درجة القرب والبلوك! (#${qId})\n\nتفتكر مين أكتر واحد فاهم ${name} صح؟ 👀\nادخل جاوب على الأسئلة دي وبناءً على درجتك هتعرف أنت في أمان ولا على وشك الحظر! 🛑\n\nيلا ادخل من هنا: 👇\n${link}`
+  ];
+
+  // نماذج البنات
+  const femaleMessages = [
+    `✨ تحدي البيست فريند اللطيف 💕 (#${qId})\n\nأنا ${name} عملت لكم اختبار كيوت عن تفاصيلي وحاجاتي المفضلة! 🌸🙈\nمين أكتر أخت وصاحبة فاهماني ومين ملهاش في الطيب نصيب؟ 🚫👑\n\nادخلي اختبري نفسك ورجيني درجتك من هنا: 👇\n${link}`,
+
+    `🌸 اختبار صاحبة العمر والبلوك! (#${qId})\n\nتعالي أما نشوف مين أكتر واحدة عارفة سر ${name} وتفاصيل يومها! 💖👀\nادخلي جاوبي ورجيني نتيجتك على الواتساب فوراً! ✨\n\nالرابط من هنا: 👇\n${link}`,
+
+    `🎀 هل هتحظريني ولا إحنا إخوات؟ (#${qId})\n\nعملت اختبار ممتع ولطيف جداً عني أنا (${name})! 🎀\nيلا ادخلي جاوبي على الأسئلة وشوفي نسبتك كام ووريني النتيجة! 💖📲\n\nدخول الاختبار من هنا: 👇\n${link}`
+  ];
+
+  // اختيار رسالة عشوائية في كل مرة
+  const list = isFemale ? femaleMessages : maleMessages;
+  const randomIndex = Math.floor(Math.random() * list.length);
+  return list[randomIndex];
 }
 
 function copyQuizLink() {
   const shareText = getShareText();
   navigator.clipboard.writeText(shareText).then(() => {
-    alert("تم نسخ رسالة الدعوة والابط بنجاح! تقدر تنزلها ستوري فوراً 📋✨");
+    alert("تم نسخ رسالة الدعوة الشيك بنجاح! تقدر تنزلها ستوري فوراً 📋✨");
   }).catch(() => {
     const input = document.getElementById('quiz-link-input');
     input.select();
@@ -248,7 +246,6 @@ function shareResultWhatsApp() {
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
-// حفظ المتصدرين لكل اختبار برقم منفصل
 function saveToLeaderboard(creator, quizId, taker, score) {
   const key = `lb_${creator}_${quizId}`;
   let lb = JSON.parse(localStorage.getItem(key) || '[]');
