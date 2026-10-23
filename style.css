@@ -1,0 +1,276 @@
+/* style.css - تصميم أنيق باستيل ومتجاوب مع الموبايل */
+
+:root {
+  --primary-pink: #ff6584;
+  --primary-blue: #3a86ff;
+  --bg-gradient: linear-gradient(135deg, #ffeef2 0%, #e8f0fe 100%);
+  --card-bg: #ffffff;
+  --text-color: #2b2d42;
+  --border-radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 25px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.card.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  color: var(--primary-pink);
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--primary-pink);
+}
+
+/* اختيار النوع */
+.gender-selector, .count-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.gender-btn, .count-btn {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e9ecef;
+  background: #f8f9fa;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.gender-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gender-btn.active-male {
+  background: #e7f0ff;
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.gender-btn.active-female {
+  background: #ffe6ec;
+  border-color: var(--primary-pink);
+  color: var(--primary-pink);
+}
+
+.count-btn.active {
+  background: var(--primary-pink);
+  color: white;
+  border-color: var(--primary-pink);
+}
+
+/* الأزرار الرئيسية */
+.primary-btn {
+  background: var(--primary-pink);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+  text-align: center;
+}
+
+.primary-btn:active {
+  transform: scale(0.98);
+}
+
+.secondary-btn {
+  background: #4a5568;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.whatsapp-btn {
+  background: #25d366;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* شبكة الإجابات الـ 15 */
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-left: 5px;
+}
+
+.option-btn {
+  background: #f8f9fa;
+  border: 2px solid #edf2f7;
+  padding: 12px 15px;
+  border-radius: 12px;
+  text-align: right;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.option-btn:hover {
+  background: #fff0f3;
+  border-color: var(--primary-pink);
+}
+
+/* شريط التقدم */
+.progress-bar {
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--primary-pink);
+  transition: width 0.3s ease;
+}
+
+.question-step {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: bold;
+}
+
+/* كارت الستوري للتحميل */
+.story-card-box {
+  background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+  color: white;
+  padding: 25px 20px;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 20px rgba(255, 117, 140, 0.3);
+}
+
+.score-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border: 3px solid rgba(255,255,255,0.6);
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* قائمة المتصدرين */
+.leaderboard-section {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.leaderboard-list {
+  list-style: none;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaderboard-list li {
+  background: #f8f9fa;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
