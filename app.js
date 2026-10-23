@@ -2,6 +2,7 @@ let quizConfig = {
   creatorName: "",
   gender: "male",
   questionCount: 10,
+  quizId: "",
   answers: []
 };
 
@@ -9,7 +10,6 @@ let activeQuizData = null;
 let currentQuestionIndex = 0;
 let takerAnswers = [];
 let takerName = "";
-let finalShortUrl = "";
 
 function selectGender(g) {
   quizConfig.gender = g;
@@ -33,6 +33,7 @@ function startCreatingQuiz() {
     return;
   }
   quizConfig.creatorName = nameInput;
+  quizConfig.quizId = Math.floor(1000 + Math.random() * 9000); // رقم فريد ومميز لكل اختبار
   quizConfig.answers = [];
   currentQuestionIndex = 0;
 
@@ -72,50 +73,28 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
-// دالة سريعة جداً مع نظام مهلة (Timeout) لضمان ظهور الرابط فوريًا بدون تعليق
-async function finishQuizCreation() {
+// توليد الرابط فوراً وبدون أي تأخير
+function finishQuizCreation() {
   showScreen('share-screen');
   const inputEl = document.getElementById('quiz-link-input');
-  inputEl.value = "جاري تجهيز الرابط الشيك... ⚡";
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
-  const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
+  const fullUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
   
-  let shortUrl = longUrl;
-
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1500); // أقصى وقت انتظار 1.5 ثانية فقط
-
-    const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`;
-    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`, { signal: controller.signal });
-    clearTimeout(timeoutId);
-
-    const data = await response.json();
-    const parsedData = JSON.parse(data.contents);
-
-    if (parsedData.shorturl) {
-      shortUrl = parsedData.shorturl;
-    }
-  } catch (e) {
-    shortUrl = longUrl; // استخدام الرابط المباشر فوراً لو حصل أي تأخير
-  }
-
-  finalShortUrl = shortUrl;
-  inputEl.value = finalShortUrl;
-  // ضبط المؤشر وعرض بداية الرابط بوضوح
+  inputEl.value = fullUrl;
   inputEl.scrollLeft = 0;
-  inputEl.setSelectionRange(0, 0);
 }
 
+// رسالة الدعوة الشيك بالصيغة المطلوبة مع رقم الاختبار المميز
 function getShareText() {
-  const link = finalShortUrl || document.getElementById('quiz-link-input').value;
+  const link = document.getElementById('quiz-link-input').value;
   const isFemale = quizConfig.gender === 'female';
+  const qId = quizConfig.quizId;
   
   if (isFemale) {
-    return `✨ اختبار الصداقة ومستوى الحظر 💕\n\nأنا ${quizConfig.creatorName} عملت لكم اختبار إجاباته عني! 🙈🌸\nمين أكتر أخت وصاحبة فاهماني ومين هتاخد بلوك وتتحظر؟ 🚫👀\n\nادخلي اختبري نفسك ورجيني النتيجة من هنا: 👇\n${link}`;
+    return `✨ اختبار الصداقة ومستوى الحظر 💕 (اختبار رقم #${qId})\n\nأنا ${quizConfig.creatorName} عملت لكم اختبار إجاباته عني! 🙈🌸\nمين أكتر أخت وصاحبة فاهماني ومين هتاخد بلوك وتتحظر؟ 🚫👀\n\nادخلي اختبري نفسك ورجيني النتيجة من هنا: 👇\n${link}`;
   } else {
-    return `🔥 اختبار درجة الصداقة ومستوى الحظر 🚫\n\nأنا ${quizConfig.creatorName} عملت اختبار تفاصيل ومعلومات عني! 😎\nتفتكر صاحب عمر وجدع وفاهم كل حاجة ولا على وشك البلوك؟ 🛑💣\n\nادخل جاوب وشوف درجتك فوراً من هنا: 👇\n${link}`;
+    return `🔥 اختبار درجة الصداقة ومستوى الحظر 🚫 (اختبار رقم #${qId})\n\nأنا ${quizConfig.creatorName} عملت اختبار تفاصيل ومعلومات عني! 😎\nتفتكر صاحب عمر وجدع وفاهم كل حاجة ولا على وشك البلوك؟ 🛑💣\n\nادخل جاوب وشوف درجتك فوراً من هنا: 👇\n${link}`;
   }
 }
 
@@ -142,7 +121,7 @@ window.onload = function() {
     try {
       const base64Data = hash.split('#quiz=')[1];
       activeQuizData = JSON.parse(decodeURIComponent(escape(atob(base64Data))));
-      document.getElementById('quiz-creator-display-name').innerText = activeQuizData.creatorName;
+      document.getElementById('quiz-creator-display-name').innerText = `${activeQuizData.creatorName} (اختبار رقم #${activeQuizData.quizId || 'مخصوص'})`;
       showScreen('taker-start-screen');
     } catch (e) {
       console.error("خطأ في قراءة بيانات الاختبار", e);
@@ -229,8 +208,8 @@ function calculateResult() {
   document.getElementById('res-status-title').innerText = statusTitle;
   document.getElementById('res-status-desc').innerText = statusDesc;
 
-  saveToLeaderboard(activeQuizData.creatorName, takerName, percentage);
-  renderLeaderboard(activeQuizData.creatorName);
+  saveToLeaderboard(activeQuizData.creatorName, activeQuizData.quizId || 'general', takerName, percentage);
+  renderLeaderboard(activeQuizData.creatorName, activeQuizData.quizId || 'general');
 
   showScreen('result-screen');
 }
@@ -250,16 +229,17 @@ function shareResultWhatsApp() {
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
-function saveToLeaderboard(creator, taker, score) {
-  const key = `lb_${creator}`;
+// حفظ المتصدرين لكل اختبار برقم منفصل
+function saveToLeaderboard(creator, quizId, taker, score) {
+  const key = `lb_${creator}_${quizId}`;
   let lb = JSON.parse(localStorage.getItem(key) || '[]');
   lb.push({ taker, score, date: new Date().toLocaleDateString('ar-EG') });
   lb.sort((a, b) => b.score - a.score);
   localStorage.setItem(key, JSON.stringify(lb));
 }
 
-function renderLeaderboard(creator) {
-  const key = `lb_${creator}`;
+function renderLeaderboard(creator, quizId) {
+  const key = `lb_${creator}_${quizId}`;
   const lb = JSON.parse(localStorage.getItem(key) || '[]');
   const listEl = document.getElementById('leaderboard-list');
 
