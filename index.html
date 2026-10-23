@@ -4,14 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>اختبار درجة الصداقة ومستوى الحظر 💖</title>
+  
+  <!-- Open Graph Meta Tags لمعاينة الواتساب والستوري -->
+  <meta property="og:title" content="اختبار الصداقة والحظر 🚫💕 - هل ستقوم بحظرك؟">
+  <meta property="og:description" content="اضغط هنا وادخل جاوب على الأسئلة واكتشف هل صاحبك هيحظرك ولا هعتبرك صديق العمر! 🎯">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop&q=80">
+  <meta property="og:type" content="website">
+
   <link rel="stylesheet" href="style.css">
-  <!-- مكتبة html2canvas لتوليد صورة الستوري -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
   <div class="container">
-    <!-- الشاشة الأولى: إعداد الاختبار (للصانع) -->
+    <!-- الشاشة الأولى: إعداد الاختبار -->
     <div id="setup-screen" class="card active">
       <div class="header-icon">
         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ff4f8b" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -20,7 +26,7 @@
       <p class="subtitle">تحدى أصحابك وشوف مين فاهمك ومين على وشك الحظر! 🚫</p>
 
       <div class="form-group">
-        <label>اسمك الكريـم:</label>
+        <label>اسمك الكريم:</label>
         <input type="text" id="creator-name" placeholder="اكتب اسمك هنا..." maxlength="20">
       </div>
 
@@ -50,7 +56,7 @@
       <button class="primary-btn" onclick="startCreatingQuiz()">ابدأ اختيار الإجابات 🚀</button>
     </div>
 
-    <!-- شاشة إنشاء الأسئلة (اختيار الإجابة من 15 خيار) -->
+    <!-- شاشة إنشاء الأسئلة -->
     <div id="creator-quiz-screen" class="card">
       <div class="progress-bar"><div id="creator-progress" class="progress-fill"></div></div>
       <span class="question-step" id="creator-step-text">سؤال 1 من 10</span>
@@ -58,21 +64,21 @@
       <div id="creator-options-container" class="options-grid"></div>
     </div>
 
-    <!-- شاشة إتمام الاختبار والحصول على الرابط -->
+    <!-- شاشة إتمام الاختبار والحصول على الرابط القصير -->
     <div id="share-screen" class="card">
       <div class="success-icon">🎉</div>
       <h2>جاهز للنشر! 📲</h2>
-      <p>انسخ الرابط ونزله في ستوري الواتساب أو أنستجرام وخلي الصحاب يجاوبوا!</p>
+      <p>تم اختصار الرابط تلقائياً! انسخه ونزله في ستوري الواتساب:</p>
       
       <div class="link-box">
-        <input type="text" id="quiz-link-input" readonly>
+        <input type="text" id="quiz-link-input" readonly value="جاري اختصار الرابط...">
         <button onclick="copyQuizLink()" class="copy-btn">نسخ 📋</button>
       </div>
 
-      <button onclick="shareToWhatsApp()" class="whatsapp-btn">مشاركة المباشرة على الواتساب 🟢</button>
+      <button onclick="shareToWhatsApp()" class="whatsapp-btn">مشاركة مباشرة على الواتساب 🟢</button>
     </div>
 
-    <!-- شاشة دخول الصديق (المجيب) -->
+    <!-- شاشة دخول الصديق -->
     <div id="taker-start-screen" class="card">
       <div class="header-icon">🕵️‍♂️</div>
       <h2>اختبار درجة الصداقة!</h2>
@@ -94,10 +100,8 @@
       <div id="taker-options-container" class="options-grid"></div>
     </div>
 
-    <!-- شاشة النتيجة النهائية وقائمة المتصدرين -->
+    <!-- شاشة النتيجة والمتصدرين -->
     <div id="result-screen" class="card">
-      
-      <!-- منطقة كارت الستوري المتولد للتحميل -->
       <div id="story-card" class="story-card-box">
         <div class="story-header">
           <span class="story-badge">اختبار الصداقة والحظر 🚫</span>
@@ -113,21 +117,18 @@
         </div>
       </div>
 
-      <!-- أزرار التفاعل والإجراءات -->
       <div class="action-buttons">
         <button onclick="downloadStoryCard()" class="secondary-btn story-btn">📸 تحميل كارت للستوري</button>
         <button onclick="shareResultWhatsApp()" class="whatsapp-btn">إرسال النتيجة للصديق 🟢</button>
         <button onclick="createNewQuizForSelf()" class="primary-btn">أنشئ اختبارك أنت أيضاً 🚀</button>
       </div>
 
-      <!-- قائمة المتصدرين (Leaderboard) -->
       <div class="leaderboard-section">
         <h3>🏆 قائمة المتصدرين (أقرب الأصدقاء)</h3>
         <ul id="leaderboard-list" class="leaderboard-list">
           <li class="empty-lb">لا توجد إجابات سابقة لهذا الاختبار بعد.</li>
         </ul>
       </div>
-
     </div>
 
   </div>
