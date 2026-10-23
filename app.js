@@ -42,7 +42,9 @@ function startCreatingQuiz() {
 }
 
 function renderCreatorQuestion() {
-  const q = QUESTION_BANK[currentQuestionIndex];
+  // التأكد من عدم تجاوز عدد الأسئلة الموجودة في البنك
+  const qIndex = currentQuestionIndex % QUESTION_BANK.length;
+  const q = QUESTION_BANK[qIndex];
   const total = quizConfig.questionCount;
 
   document.getElementById('creator-progress').style.width = `${((currentQuestionIndex) / total) * 100}%`;
@@ -66,7 +68,8 @@ function saveCreatorAnswer(optionIdx) {
   quizConfig.answers.push(optionIdx);
   currentQuestionIndex++;
 
-  if (currentQuestionIndex < quizConfig.questionCount && currentQuestionIndex < QUESTION_BANK.length) {
+  // التوقف عند العدد الذي اختاره المستخدم بالضبط (10 أو 15 أو 20)
+  if (currentQuestionIndex < quizConfig.questionCount) {
     renderCreatorQuestion();
   } else {
     finishQuizCreation();
@@ -91,25 +94,18 @@ function getShareText() {
   const name = quizConfig.creatorName;
   const qId = quizConfig.quizId;
 
-  // نماذج الأولاد
   const maleMessages = [
     `🔥 تحدي الصداقة الصعبة! (#${qId})\n\nصاحبي ${name} عمل اختبار تفاصيل عن حياته وسلوكه! 😎\nتفتكر أنت صاحب عمر وجدع بجد ولا آخرتك بلوك وحظر؟ 🚫💥\n\nادخل أثبت نفسك واعرف درجتك فوراً من هنا: 👇\n${link}`,
-    
     `💣 مين الجدع الفاهم ومين هينزل بلوك؟ (#${qId})\n\nعملت لكم اختبار خفيف عني أنا (${name})! 🎯\nلو فاكر إنك عارف أكلاتي وخروجاتي ومزاجي، ادخل جاوب وشوف هتاخد كام من 100%! 🚀\n\nالرابط من هنا: 👇\n${link}`,
-
     `⚡ اختبار درجة القرب والبلوك! (#${qId})\n\nتفتكر مين أكتر واحد فاهم ${name} صح؟ 👀\nادخل جاوب على الأسئلة دي وبناءً على درجتك هتعرف أنت في أمان ولا على وشك الحظر! 🛑\n\nيلا ادخل من هنا: 👇\n${link}`
   ];
 
-  // نماذج البنات
   const femaleMessages = [
     `✨ تحدي البيست فريند اللطيف 💕 (#${qId})\n\nأنا ${name} عملت لكم اختبار كيوت عن تفاصيلي وحاجاتي المفضلة! 🌸🙈\nمين أكتر أخت وصاحبة فاهماني ومين ملهاش في الطيب نصيب؟ 🚫👑\n\nادخلي اختبري نفسك ورجيني درجتك من هنا: 👇\n${link}`,
-
     `🌸 اختبار صاحبة العمر والبلوك! (#${qId})\n\nتعالي أما نشوف مين أكتر واحدة عارفة سر ${name} وتفاصيل يومها! 💖👀\nادخلي جاوبي ورجيني نتيجتك على الواتساب فوراً! ✨\n\nالرابط من هنا: 👇\n${link}`,
-
     `🎀 هل هتحظريني ولا إحنا إخوات؟ (#${qId})\n\nعملت اختبار ممتع ولطيف جداً عني أنا (${name})! 🎀\nيلا ادخلي جاوبي على الأسئلة وشوفي نسبتك كام ووريني النتيجة! 💖📲\n\nدخول الاختبار من هنا: 👇\n${link}`
   ];
 
-  // اختيار رسالة عشوائية في كل مرة
   const list = isFemale ? femaleMessages : maleMessages;
   const randomIndex = Math.floor(Math.random() * list.length);
   return list[randomIndex];
@@ -161,7 +157,8 @@ function startTakingQuiz() {
 }
 
 function renderTakerQuestion() {
-  const q = QUESTION_BANK[currentQuestionIndex];
+  const qIndex = currentQuestionIndex % QUESTION_BANK.length;
+  const q = QUESTION_BANK[qIndex];
   const total = activeQuizData.answers.length;
 
   document.getElementById('taker-progress').style.width = `${((currentQuestionIndex) / total) * 100}%`;
