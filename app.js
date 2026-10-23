@@ -72,20 +72,23 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
-// دالة اختصار الرابط مع تجاوز قيود CORS بنجاح
+// اختصار الرابط باستخدام خدمة is.gd الموثوقة مع التجاوز
 async function finishQuizCreation() {
   showScreen('share-screen');
   const inputEl = document.getElementById('quiz-link-input');
-  inputEl.value = "جاري اختصار الرابط... ⏳";
+  inputEl.value = "جاري اختصار الرابط الشيك... ⏳";
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(quizConfig))));
   const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
 
   try {
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://tinyurl.com/api-create.php?url=' + encodeURIComponent(longUrl))}`;
-    const response = await fetch(proxyUrl);
-    if (response.ok) {
-      finalShortUrl = await response.text();
+    const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`;
+    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`);
+    const data = await response.json();
+    const parsedData = JSON.parse(data.contents);
+
+    if (parsedData.shorturl) {
+      finalShortUrl = parsedData.shorturl;
       inputEl.value = finalShortUrl;
     } else {
       finalShortUrl = longUrl;
@@ -97,16 +100,32 @@ async function finishQuizCreation() {
   }
 }
 
+// نص الدعوة المباشر والشيك للستوري والواتساب
+function getShareText() {
+  const link = finalShortUrl || document.getElementById('quiz-link-input').value;
+  const isFemale = quizConfig.gender === 'female';
+  
+  if (isFemale) {
+    return `✨ اختبار الصداقة ومستوى الحظر 💕\n\nأنا ${quizConfig.creatorName} عملت لكم اختبار إجاباته عني! 🙈🌸\nمين أكتر أخت وصاحبة فاهماني ومين هتاخد بلوك وتتحظر؟ 🚫👀\n\nادخلي اختبري نفسك ورجيني النتيجة من هنا: 👇\n${link}`;
+  } else {
+    return `🔥 اختبار درجة الصداقة ومستوى الحظر 🚫\n\nأنا ${quizConfig.creatorName} عملت اختبار تفاصيل ومعلومات عني! 😎\nتفتكر صاحب عمر وجدع وفاهم كل حاجة ولا على وشك البلوك؟ 🛑💣\n\nادخل جاوب وشوف درجتك فوراً من هنا: 👇\n${link}`;
+  }
+}
+
 function copyQuizLink() {
-  const input = document.getElementById('quiz-link-input');
-  input.select();
-  document.execCommand('copy');
-  alert("تم نسخ الرابط المختصر بنجاح! 📋");
+  const shareText = getShareText();
+  navigator.clipboard.writeText(shareText).then(() => {
+    alert("تم نسخ كلام الدعوة مع الرابط المختصر! تقدر تنزله ستوري فوراً 📋✨");
+  }).catch(() => {
+    const input = document.getElementById('quiz-link-input');
+    input.select();
+    document.execCommand('copy');
+    alert("تم نسخ الرابط! 📋");
+  });
 }
 
 function shareToWhatsApp() {
-  const link = finalShortUrl || document.getElementById('quiz-link-input').value;
-  const text = `أنا ${quizConfig.creatorName} عملت اختبار درجة الصداقة ومستوى الحظر! 🚫💕\nادخل جاوب وشوف هتحظر ولا لأ: 👇\n${link}`;
+  const text = getShareText();
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
