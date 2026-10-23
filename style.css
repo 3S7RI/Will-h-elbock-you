@@ -178,6 +178,10 @@ input[type="text"]:focus {
 
 .link-box input {
   flex: 1;
+  direction: ltr; /* ضبط اتجاه الرابط من اليسار لليمين */
+  text-align: left;
+  font-size: 0.85rem;
+  background: #f8f9fa;
 }
 
 .copy-btn {
