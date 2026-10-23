@@ -72,6 +72,7 @@ function saveCreatorAnswer(optionIdx) {
   }
 }
 
+// دالة اختصار الرابط مع تجاوز قيود CORS بنجاح
 async function finishQuizCreation() {
   showScreen('share-screen');
   const inputEl = document.getElementById('quiz-link-input');
@@ -81,7 +82,8 @@ async function finishQuizCreation() {
   const longUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
 
   try {
-    const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://tinyurl.com/api-create.php?url=' + encodeURIComponent(longUrl))}`;
+    const response = await fetch(proxyUrl);
     if (response.ok) {
       finalShortUrl = await response.text();
       inputEl.value = finalShortUrl;
@@ -99,7 +101,7 @@ function copyQuizLink() {
   const input = document.getElementById('quiz-link-input');
   input.select();
   document.execCommand('copy');
-  alert("تم نسخ الرابط بنجاح! 📋");
+  alert("تم نسخ الرابط المختصر بنجاح! 📋");
 }
 
 function shareToWhatsApp() {
