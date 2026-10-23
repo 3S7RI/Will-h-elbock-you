@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الصداقة - هل سيتم حظرك؟ 🎀💖</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cute: {
+                            pink: '#FF9EAA',
+                            softPink: '#FFD0EC',
+                            lavender: '#E195AB',
+                            purple: '#A888B5',
+                            bg: '#FFF5F7',
+                            card: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif']
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2.5s infinite',
+                        'float': 'float 3s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FFF5F7;
+            background-image: radial-gradient(#FFD0EC 1.2px, transparent 1.2px);
+            background-size: 20px 20px;
+        }
+
+        .cute-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            border: 3px solid #FFD0EC;
+            box-shadow: 0 12px 30px -5px rgba(255, 158, 170, 0.35);
+            border-radius: 2rem;
+        }
+
+        .cute-btn {
+            background: linear-gradient(135deg, #FF9EAA 0%, #F43F5E 100%);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+        }
+
+        .cute-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 22px rgba(244, 63, 94, 0.4);
+        }
+
+        .cute-btn:active {
+            transform: translateY(1px);
+        }
+
+        .option-card {
+            transition: all 0.2s ease;
+            border: 2px solid #FFE4E6;
+        }
+
+        .option-card:hover {
+            border-color: #FF9EAA;
+            background-color: #FFF1F2;
+            transform: scale(1.01);
+        }
+
+        .option-card.selected {
+            border-color: #F43F5E;
+            background-color: #FFE4E6;
+            box-shadow: 0 0 12px rgba(244, 63, 94, 0.25);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF5F7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF9EAA;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800 flex flex-col items-center justify-between p-3 sm:p-6 overflow-x-hidden">
+
+    <!-- Floating Background SVGs -->
+    <div class="fixed top-4 left-4 pointer-events-none opacity-40 animate-float">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="#FF9EAA"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+    <div class="fixed top-12 right-6 pointer-events-none opacity-40 animate-float" style="animation-delay: 1.2s;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="#A888B5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+    </div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-xl mx-auto my-auto py-3">
+
+        <!-- Header -->
+        <header class="text-center mb-4">
+            <div class="inline-block relative">
+                <span class="text-3xl sm:text-4xl">🎀</span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 inline-block px-2">
+                    اختبار الصداقة - هل سيتم حظرك؟
+                </h1>
+                <span class="text-3xl sm:text-4xl">✨</span>
+            </div>
+            <p class="text-xs sm:text-sm text-pink-600 font-bold mt-1">اكتشفي مين أكتر حد عارف تفاصيلك وعادتك 💖</p>
+        </header>
+
+        <!-- Dynamic Content Card -->
+        <div id="app" class="cute-card p-4 sm:p-7 relative overflow-hidden transition-all duration-300">
+
+            <!-- Screen 1: Welcome / Mode Choice Screen -->
+            <div id="screen-welcome" class="space-y-6 text-center">
+                <div class="w-28 h-28 mx-auto relative flex items-center justify-center">
+                    <div class="absolute inset-0 bg-pink-200 rounded-full blur-xl opacity-70 animate-pulse"></div>
+                    <svg class="w-24 h-24 relative animate-bounce-slow" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#FFE4E6" stroke="#FF9EAA" stroke-width="3"/>
+                        <circle cx="35" cy="42" r="4.5" fill="#881337"/>
+                        <circle cx="65" cy="42" r="4.5" fill="#881337"/>
+                        <path d="M38 62 Q 50 74 62 62" stroke="#E11D48" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path d="M22 28 C 30 10, 45 10, 50 25 C 55 10, 70 10, 78 28 Z" fill="#FF9EAA"/>
+                    </svg>
+                </div>
+
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold text-gray-800">أهلاً بكِ في تحدي الصداقة الشخصي! 🌸</h2>
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                        اختبري صاحباتك في تفضيلاتك الشخصية: أكلك المفضل، المكان اللي بتحبي تروحيه، إيه اللي بيعصبك، وموضوعاتك المفضلة! صممي الاختبار وشوفي مين هيعدي ومين هيتحظر 🚫💖
+                    </p>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <button onclick="startCreatorMode()" class="cute-btn w-full py-3.5 px-6 text-white font-bold rounded-2xl text-base sm:text-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>أنشئي اختباركِ الخاص 🎀</span>
+                    </button>
+                    
+                    <button onclick="toggleJoinModal()" class="w-full py-3 px-6 bg-white border-2 border-pink-300 text-pink-600 hover:bg-pink-50 font-bold rounded-2xl text-sm transition-all">
+                        <i class="fa-solid fa-link ml-1"></i> إدخال رابط اختبار صديقة
+                    </button>
+                </div>
+            </div>
+
+            <!-- Screen 2: Creator Config Setup -->
+            <div id="screen-config" class="hidden space-y-5">
+                <div class="text-center">
+                    <span class="text-3xl">📝</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800">بيانات الاختبار ✨</h2>
+                    <p class="text-xs text-gray-500 mt-1">ادخلي اسمكِ واختاري عدد الأسئلة للبدء</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">اسمكِ الجميلة / اسم الشهرة 🌸</label>
+                        <input type="text" id="creator-name" placeholder="مثال: ياسمين / سارة 👑" 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-pink-200 focus:border-rose-400 focus:outline-none transition-all text-center text-base font-bold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-2">كم عدد الأسئلة التي تريدين إضافتها؟ 🤔</label>
+                        <div class="grid grid-cols-3 gap-2.5">
+                            <button onclick="selectQuestionCount(10)" id="count-btn-10" class="count-opt border-2 border-pink-200 p-2.5 rounded-xl font-bold text-pink-600 hover:bg-pink-50 text-center transition-all">
+                                <span class="block text-lg">10</span>
+                                <span class="text-[10px] font-normal">سريع ⚡</span>
+                            </button>
+                            <button onclick="selectQuestionCount(20)" id="count-btn-20" class="count-opt border-2 border-pink-200 p-2.5 rounded-xl font-bold text-pink-600 hover:bg-pink-50 text-center transition-all">
+                                <span class="block text-lg">20</span>
+                                <span class="text-[10px] font-normal">متوسط 🎯</span>
+                            </button>
+                            <button onclick="selectQuestionCount(30)" id="count-btn-30" class="count-opt border-2 border-pink-200 p-2.5 rounded-xl font-bold text-pink-600 hover:bg-pink-50 text-center transition-all">
+                                <span class="block text-lg">30</span>
+                                <span class="text-[10px] font-normal">عميق 💎</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="startQuestionSelection()" class="cute-btn w-full py-3 text-white font-bold rounded-2xl text-base mt-3">
+                    ابدئي اختيار الأسئلة 🚀
+                </button>
+            </div>
+
+            <!-- Screen 3: Question Selection (Admin chooses questions & sets personal answer) -->
+            <div id="screen-select-questions" class="hidden space-y-4">
+                <!-- Progress Header -->
+                <div>
+                    <div class="flex justify-between items-center text-xs font-bold text-pink-600 mb-1">
+                        <span id="select-progress-text">السؤال 1 من 10</span>
+                        <span id="select-progress-percent">10%</span>
+                    </div>
+                    <div class="w-full bg-pink-100 rounded-full h-2">
+                        <div id="select-progress-bar" class="bg-gradient-to-r from-pink-400 to-rose-500 h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-xs font-bold text-rose-500 bg-rose-50 inline-block px-3 py-1 rounded-full border border-rose-200">
+                        الخطوة 1: اختاري سؤالاً واحداً من هذه الأسئلة المتشابهة 👇
+                    </p>
+                </div>
+
+                <!-- 4 Similar Personal Question Cards Grid -->
+                <div id="question-candidates-grid" class="grid grid-cols-1 gap-2.5 max-h-[320px] overflow-y-auto p-1">
+                    <!-- Dynamic Question Cards -->
+                </div>
+
+                <!-- Step 2: Setting Creator's Personal Answer -->
+                <div id="answer-setter-panel" class="hidden border-t-2 border-pink-100 pt-3 mt-3 space-y-2.5">
+                    <p class="text-xs font-bold text-purple-700 text-center">
+                        الخطوة 2: ماهي إجابتكِ أنتِ الشخصية والصحيحة على هذا السؤال؟ 💖
+                    </p>
+                    <h3 id="selected-q-title" class="text-xs sm:text-sm font-bold text-gray-800 text-center bg-purple-50 p-2 rounded-xl border border-purple-100"></h3>
+                    <div id="options-setter-container" class="grid grid-cols-2 gap-2">
+                        <!-- Dynamic options buttons -->
+                    </div>
+                    <button onclick="confirmQuestionAndNext()" id="confirm-q-btn" disabled class="w-full py-2.5 bg-gray-300 text-white font-bold rounded-xl text-xs sm:text-sm transition-all">
+                        تأكيد وانتقال للسؤال التالي ➔
+                    </button>
+                </div>
+            </div>
+
+            <!-- Screen 4: Quiz Ready & Share Link -->
+            <div id="screen-share" class="hidden space-y-5 text-center">
+                <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center text-green-500 text-3xl animate-bounce">
+                    🎉
+                </div>
+
+                <div class="space-y-1">
+                    <h2 class="text-xl font-extrabold text-gray-800">اختباركِ الشخصي جاهز! 🚀</h2>
+                    <p class="text-xs text-gray-600">انسخي الرابط ونزليه في استوري الواتساب واعرفي مين عارف تفاصيلك ومين هيتحظر!</p>
+                </div>
+
+                <!-- Link Box -->
+                <div class="bg-pink-50 p-3 rounded-2xl border-2 border-dashed border-pink-300 space-y-2">
+                    <input type="text" id="generated-quiz-link" readonly class="w-full bg-white border border-pink-200 rounded-xl px-3 py-2 text-xs font-mono text-gray-600 text-center focus:outline-none">
+                    
+                    <button onclick="copyQuizLink()" class="cute-btn w-full py-2.5 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-copy"></i>
+                        <span id="copy-btn-text">نسخ رابط الاختبار 📋</span>
+                    </button>
+                </div>
+
+                <!-- Suggested Status Text -->
+                <div class="border border-pink-200 rounded-2xl p-3 bg-gradient-to-b from-purple-50 to-pink-50 text-right space-y-1.5">
+                    <span class="text-xs font-bold text-pink-600 block">💡 نص الاستوري المقترح للواتساب:</span>
+                    <p class="text-xs text-gray-700 bg-white p-2.5 rounded-xl border border-pink-100 leading-relaxed">
+                        "دخلوا اختبروا معلوماتكم عني وعن أكلي وخروجاتي المفضلة.. ونشوف مين عارفني ومين هيتحظر قريب! 😂💔👇 [الرابط]"
+                    </p>
+                </div>
+
+                <button onclick="previewMyQuiz()" class="w-full py-2.5 bg-purple-100 text-purple-700 font-bold rounded-xl text-xs hover:bg-purple-200 transition-all">
+                    تجربة وإجراء الاختبار بنفسكِ 👁️
+                </button>
+            </div>
+
+            <!-- Screen 5: Friend Name Entry (Before quiz starts) -->
+            <div id="screen-friend-welcome" class="hidden space-y-5 text-center">
+                <div class="w-20 h-20 mx-auto bg-pink-100 rounded-full flex items-center justify-center text-3xl">
+                    🎀
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-lg font-extrabold text-gray-800">
+                        اختبار هل سيتم حظرك من <span id="welcome-creator-name" class="text-rose-600">...</span>؟ 💕
+                    </h2>
+                    <p class="text-xs text-gray-500">ادخلي اسمكِ أولاً لنبدأ الاختبار وتكتشفي درجتكِ!</p>
+                </div>
+
+                <div class="space-y-3">
+                    <input type="text" id="friend-name-input" placeholder="اكتبي اسمكِ هنا 🌸" 
+                           class="w-full px-4 py-3 rounded-xl border-2 border-pink-200 focus:border-rose-400 focus:outline-none text-center text-sm font-bold">
+                    
+                    <button onclick="startFriendQuiz()" class="cute-btn w-full py-3 text-white font-bold rounded-xl text-sm">
+                        ابدئي الاختبار الآن ✨
+                    </button>
+                </div>
+            </div>
+
+            <!-- Screen 6: Friend Player Mode (Taking the quiz) -->
+            <div id="screen-play" class="hidden space-y-4">
+                <!-- Header -->
+                <div class="text-center pb-2 border-b border-pink-100">
+                    <span class="text-[11px] bg-pink-100 text-pink-700 px-2.5 py-0.5 rounded-full font-bold">اختبار التفضيلات والعادات</span>
+                    <h2 class="text-base font-extrabold text-gray-800 mt-1">
+                        اختبار: <span id="play-creator-title" class="text-rose-600">...</span>
+                    </h2>
+                </div>
+
+                <!-- Progress Bar -->
+                <div>
+                    <div class="flex justify-between items-center text-xs font-bold text-pink-600 mb-1">
+                        <span id="play-progress-text">السؤال 1 من 10</span>
+                        <span id="play-progress-percent">10%</span>
+                    </div>
+                    <div class="w-full bg-pink-100 rounded-full h-2">
+                        <div id="play-progress-bar" class="bg-rose-500 h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
+                    </div>
+                </div>
+
+                <!-- Question Box -->
+                <div class="space-y-3">
+                    <div class="bg-pink-50/60 p-3.5 rounded-2xl border border-pink-200 text-center space-y-2">
+                        <div id="play-q-svg" class="w-14 h-14 mx-auto flex items-center justify-center">
+                            <!-- SVG Graphic -->
+                        </div>
+                        <h3 id="play-q-text" class="text-sm font-bold text-gray-800 leading-relaxed"></h3>
+                    </div>
+
+                    <!-- Answers Grid -->
+                    <div id="play-options-container" class="grid grid-cols-1 gap-2">
+                        <!-- Options injected dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 7: Quiz Result Screen -->
+            <div id="screen-result" class="hidden space-y-5 text-center">
+                <div id="result-badge-container" class="w-24 h-24 mx-auto rounded-full flex items-center justify-center text-4xl relative">
+                    <!-- Dynamic Result Emoji -->
+                </div>
+
+                <div class="space-y-1.5">
+                    <h2 id="result-score-title" class="text-xl font-extrabold text-gray-800"></h2>
+                    <div class="inline-block px-3.5 py-1 rounded-full font-bold text-sm" id="result-percentage-badge">
+                        0%
+                    </div>
+                    <p id="result-status-desc" class="text-xs text-gray-600 leading-relaxed px-2"></p>
+                </div>
+
+                <!-- Block Meter Progress -->
+                <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200 space-y-1.5">
+                    <div class="flex justify-between text-[11px] font-bold">
+                        <span class="text-red-500">حظر فوراً 🚫</span>
+                        <span class="text-purple-600">صديقة الروح 👑</span>
+                    </div>
+                    <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+                        <div id="result-meter-bar" class="h-2.5 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-2.5 pt-1">
+                    <button onclick="shareMyResultOnWhatsapp()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md">
+                        <i class="fa-brands fa-whatsapp text-base"></i> إرسال النتيجة لـ <span id="whatsapp-target-name">صديقتك</span>
+                    </button>
+
+                    <button onclick="location.href = location.pathname;" class="cute-btn w-full py-3 text-white font-bold rounded-xl text-xs sm:text-sm">
+                        عايزة تعملي اختبار بنفسكِ وتشوفيهم؟ ✨🎀
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Join Link Modal -->
+    <div id="join-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-5 w-full max-w-sm space-y-4 border-2 border-pink-200 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-pink-100 pb-2">
+                <h3 class="font-bold text-gray-800 text-sm">إدخال رابط الاختبار 🔗</h3>
+                <button onclick="toggleJoinModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+            </div>
+            <p class="text-xs text-gray-500">الصقي رابط الاختبار الذي استلمتيه من صديقتك للبدء مباشرة:</p>
+            <input type="text" id="paste-link-input" placeholder="https://...#quiz=..." class="w-full p-2.5 border-2 border-pink-200 rounded-xl text-xs focus:outline-none focus:border-rose-400">
+            <button onclick="loadPastedLink()" class="cute-btn w-full py-2 text-white font-bold rounded-xl text-xs">
+                فتح الاختبار 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-[11px] text-pink-400 py-2 font-semibold">
+        صُمم بـ 💕 لأفضل الصديقات | جاهز للاستضافة المباشرة على GitHub Pages
+    </footer>
+
+    <!-- Logic & Questions Script -->
+    <script>
+        /* ==========================================================================
+           1. Vector SVG Graphics Assets
+           ========================================================================== */
+        const SVGS = {
+            food: `<svg class="w-10 h-10 text-pink-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            place: `<svg class="w-10 h-10 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
+            mood: `<svg class="w-10 h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+            chat: `<svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>`,
+            hobby: `<svg class="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+            trait: `<svg class="w-10 h-10 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`
+        };
+
+        /* ==========================================================================
+           2. Expanded Question Groups Bank (80+ Questions in Organized Categories)
+           ========================================================================== */
+        const QUESTION_GROUPS = [
+            // Group 1: Food & Drinks
+            {
+                category: "الأكل والحلويات والمشروبات 🍔🍰",
+                questions: [
+                    { id: 1, text: "إيه أكتر أكل بحب أطلبه لما أكون جعانة جداً؟", options: ["بيتزا أو برجر", "شاورما وساندوتشات", "سوشي وأكل آسيوي", "مكرونات ومحاشي"], svg: SVGS.food },
+                    { id: 2, text: "إيه المشروب المفضل بالنسبة لي في أي كافيه؟", options: ["آيس كافيه / ماتشا", "موهيتو وعصائر فرِش", "هوت شوكليت", "قهوة أو شاي عادي"], svg: SVGS.food },
+                    { id: 3, text: "إيه أكتر نوع تحلية بحبه جداً؟", options: ["وافل ونوتيللا", "تشيز كيك", "آيس كريم", "حلويات شرقية / بسبوسة"], svg: SVGS.food },
+                    { id: 4, text: "لو معاي فلوس وقررت أعزمك على أكل، هنروح فين؟", options: ["مطعم أكل سريع", "كافيه رايق ولطيف", "مطعم مشويات/بلدي", "عربة أكل في الشارع"], svg: SVGS.food },
+                    { id: 5, text: "إيه أكتر أكلة بطلبها أونلاين وأنا دليفري؟", options: ["كريبي وساندوتشات", "بيتزا زون", "برجر وسلايدرز", "وجبات دجاج مقرمش"], svg: SVGS.food },
+                    { id: 6, text: "إيه نوع الشوكولاتة المفضلة عندي؟", options: ["دارك شوكليت", "بالبندق والمكسرات", "بالحليب ونوتيللا", "شوكولاتة بيضاء"], svg: SVGS.food },
+                    { id: 7, text: "طعم الشيبسي أو السناكس المفضل لي؟", options: ["بالجبنة المتبلة", "بالخل والملح", "بالشطة والليمون", "بالطماطم / الكباب"], svg: SVGS.food },
+                    { id: 8, text: "لو اتعرض عليا أكل كوري حار جداً؟", options: ["هتحمس وآكله فوراً", "هجرب لحظة وأندم", "ستستسلم وترفض", "هتحب الشوربة بس"], svg: SVGS.food }
+                ]
+            },
+            // Group 2: Outings & Places
+            {
+                category: "الأماكن والخروجات ☕🎡",
+                questions: [
+                    { id: 9, text: "بحب أروح فين أكتر لما أكون عايزة أخرج؟", options: ["كافيه هادي ونظيف", "مول وشوبينج", "مكان مفتوح وفي هواء", "الملاهي والألعاب"], svg: SVGS.place },
+                    { id: 10, text: "إيه الخروجة المثالية بالنسبة لي في ويك إند؟", options: ["خروجة الصبح وبدري", "سهرة بالليل في كافيه", "سفرية سريعة للبحر", "قعدة في البيت ومسلسل"], svg: SVGS.place },
+                    { id: 11, text: "لما بنخرج مع بعض، أكتر حاجة بتهمني إيه؟", options: ["نصور صور حلوة", "نكون بنأكل أكل حلو", "نقعد نضحك ونفضفض", "نلف ونتمشى كتير"], svg: SVGS.place },
+                    { id: 12, text: "لو خيروني بين السفر للبحر أو الجبل والهدوء؟", options: ["البحر والماء طبعاً", "الهدوء والطبيعة", "الزحمة والمولات", "البيت وبطانيتي"], svg: SVGS.place },
+                    { id: 13, text: "إيه أكتر وقت بحب أخرج فيه خلال اليوم؟", options: ["الصبح بدري والشمس", "بعد الظهر والمغرب", "بالليل في السهرة", "نص الليل متأخر"], svg: SVGS.place },
+                    { id: 14, text: "طريقتي في التخطيط للخروجات؟", options: ["بخطط كل حاجة بالتفصيل", "بخروج فجأة وبدون ترتيب", "بوافق على أي خطة", "بكسل وألغي في الآخر"], svg: SVGS.place },
+                    { id: 15, text: "مكان أمني المفضل لما أكون مضغوطة؟", options: ["غرفتي وسريري", "كافيه بعيد وهادي", "التمشية في الشارع", "المطبخ مع الأكل"], svg: SVGS.place },
+                    { id: 16, text: "وسيلة المواصلات اللي بفضلها في الخروج؟", options: ["تاكسي/أوبر مريح", "عربيتي أو عربية صاحبتي", "التمشية رجلي", "المترو والمواصلات العامة"], svg: SVGS.place }
+                ]
+            },
+            // Group 3: Mood & Feelings
+            {
+                category: "المزاج وتفريغ الضغط 💆‍♀️⚡",
+                questions: [
+                    { id: 17, text: "لما بكون زعلانة جداً، إيه أكتر حاجة بعملها؟", options: ["بنام ساعات طويلة", "بطلب أكل بحبه", "بتكلم وأفضفض ليكي", "بقفل الموبايل وبختفي"], svg: SVGS.mood },
+                    { id: 18, text: "إيه أكتر حاجة بتعصبني وتغير موادي فوراً؟", options: ["الرد المتأخر والتجاهل", "القلس والهزار البايخ", "الزن والكلام كتير", "إلغاء الخروجات فجأة"], svg: SVGS.mood },
+                    { id: 19, text: "إيه أفضل طريقة لتهدئتي لما أكون متضايقة؟", options: ["تسمعيني بدون نصائح", "تجيبيلي أكل أو حلوى", "تخليني لوحدي شوية", "تضحكيني بميمز"], svg: SVGS.mood },
+                    { id: 20, text: "نسبة التقلب في المود عندي في اليوم؟", options: ["سريعة جداً زي الجو", "هادية وقليل لما بزعل", "عصبية بس بطيب بسرعة", "رايقة وغامضة"], svg: SVGS.mood },
+                    { id: 21, text: "رد فعلي الأول لما أسكربت أو أتنكد؟", options: ["بعيط بسرعة", "بتحول لعصبية جداً", "بضحك ضحك هيستيري", "بسكت تماماً وما بتكلمش"], svg: SVGS.mood },
+                    { id: 22, text: "لما بكون مبسوطة وفرحانة ببان إزاي؟", options: ["بتكلم بسرعة وبحماس", "بوزع ابتسامات وأكل", "بغني وبتحرك كتير", "ببعت ريلز لكل الناس"], svg: SVGS.mood },
+                    { id: 23, text: "أكتر حاجة بترجع روحي لما أكون مطفية؟", options: ["نومة عميقة 10 ساعات", "شوبينج واشتري حاجات", "خروجة مع صاحبتي الانتيم", "أعد أنظف غرفتي"], svg: SVGS.mood },
+                    { id: 24, text: "هل بظهر مشاعري بسهولة ولا بكتد؟", options: ["بظهرها بوضوح فوراً", "بداري وبمثل إن عادي", "حسب الشخص اللي قدامي", "بفضفض في الشات بس"], svg: SVGS.mood }
+                ]
+            },
+            // Group 4: Chats & Social Communication
+            {
+                category: "المواضيع والمحادثات 💬📲",
+                questions: [
+                    { id: 25, text: "إيه أكثر موضوع بحب أتكلم فيه معاكي؟", options: ["المواقف والفضائح الكوميدية", "المكياج واللبس والستايل", "أحلامنا والمستقبل", "النمر والعلاقات"], svg: SVGS.chat },
+                    { id: 26, text: "لما أبعتلك ريلز أو ميمز، بيبقى عن إيه غالباً؟", options: ["حاجات تضحك وتموت ضحك", "عن الصداقة والمشاكل", "أكل وأماكن جديدة", "فيديوهات قطط وكلاب كيوت"], svg: SVGS.chat },
+                    { id: 27, text: "طريقتي المفضلة في التواصل معاكي؟", options: ["فويسات طويلة", "رسائل نصية سريعة", "مكالمات فيديو", "نشوف بعض بالحقيقة"], svg: SVGS.chat },
+                    { id: 28, text: "إيه أكتر كلمة أو جملة بكررها دايماً؟", options: ["'يا بنتي انتِ مش فاهمة'", "'تخيلي إيه اللي حصل!'", "'أنا جائعة جداً'", "'عايزة أنام'"], svg: SVGS.chat },
+                    { id: 29, text: "سرعة ردي على الرسائل في الواتساب؟", options: ["برد في نفس الثانية", "برد بعد ساعات طويلة", "بشوف الرسالة وبنسى أرد", "حسب المود والمشغولية"], svg: SVGS.chat },
+                    { id: 30, text: "لما أكون عايزة أحكيلك سر مهم جداً؟", options: ["بقولك 'أول ما تفتحي كلميني'", "ببعت فويس 5 دقائق", "بستنى لما نشوف بعض", "بقوله في كلمة وحدة"], svg: SVGS.chat },
+                    { id: 31, text: "أكتر إيموجي بستخدمه في المحادثات؟", options: ["😂 (الضحك الميت)", "🥺 (العينين الكيوت)", "💀 (الجمجمة والهزار)", "🤍 (القلب الأبيض)"], svg: SVGS.chat },
+                    { id: 32, text: "تفاعلي على الاستوري والتطبيقات؟", options: ["متفاعلة وبنزل استوريات دايماً", "بشاهد في الصمت وما بنزلش", "بنزل صور وأكلات بس", "بدخل كل فين وفين"], svg: SVGS.chat }
+                ]
+            },
+            // Group 5: Hobbies & Movies
+            {
+                category: "الهوايات والمسلسلات 🎬🎧",
+                questions: [
+                    { id: 33, text: "أكتر حاجة بضيع فيها وقتي وأنا فاضية؟", options: ["التصفح في التيكتوك/إنستا", "متابعة مسلسلات وأفلام", "النوم والأنتخة", "الدردشة مع صاحباتي"], svg: SVGS.hobby },
+                    { id: 34, text: "نوع المسلسلات أو الأفلام اللي بحبها؟", options: ["رومانسي وكوميدي", "رعب وإثارة", "دراما وغموض", "أنمي أو كرتون"], svg: SVGS.hobby },
+                    { id: 35, text: "لو عندي يوم كامل إجازة وبدون التزامات؟", options: ["هقضيه كله في السرير", "هخرج من الصبح للبال", "هعمل شوبينج وعناية", "هتعلم حاجة جديدة"], svg: SVGS.hobby },
+                    { id: 36, text: "علاقتي بالتصوير والصور؟", options: ["بصور كل التفاصيل", "بصور الأكل فقط", "بكره التصوير", "بحب أتصور لما أكون شيك"], svg: SVGS.hobby },
+                    { id: 37, text: "نوع الأغاني والموسيقى المفضلة لي؟", options: ["هادئة ورومانسية", "سريعة ومبهجة", "أغاني حزينة ونكد", "أغاني أجنبية/كيبوب"], svg: SVGS.hobby },
+                    { id: 38, text: "هل بحب القراءة والكتب؟", options: ["بعشق الروايات والكتب", "بحب القراءات السريعة", "بفضل الفيديوهات أكتر", "بقرأ كوميكس ومانجا بس"], svg: SVGS.hobby },
+                    { id: 39, text: "ستايل اللبس المفضل لي في الخروج؟", options: ["كاجوال ومريح جداً", "شيك وفورمال/أنثوي", "فساتين وألوان باستيل", "ترينجات ورياضي"], svg: SVGS.hobby },
+                    { id: 40, text: "اهتمامي بمجال العناية والمكياج؟", options: ["متابعة ومجربة لكل حاجة", "بحب حاجات بسيطة وكيوت", "ما بستخدمش غير الروج بس", "اهتمامي حسب المناسبة"], svg: SVGS.hobby }
+                ]
+            },
+            // Group 6: Personal Traits & Friendship
+            {
+                category: "الصفات وعلاقات الصداقة 💖👑",
+                questions: [
+                    { id: 41, text: "أكتر صفة بكرها وممكن تخيليني أبعد عن حد؟", options: ["الكذب والتحوير", "القلة في الاهتمام", "البخل والحرص", "الغرور والتكبر"], svg: SVGS.trait },
+                    { id: 42, text: "إيه أكتر صفة بحبها في صاحبتي المقربة؟", options: ["تكون بتسمعني وتفهمني", "تكون دمها خفيف بتضحك", "تكون أمينة وسرية", "تكون جدعة وفي الظهر"], svg: SVGS.trait },
+                    { id: 43, text: "لو اختلفنا في الرأي حول موضوع معين؟", options: ["بنتناقش بهدوء", "بتعصب بس بنسى فوراً", "بكتلم وبسكت", "بنقلب الموضوع بهزار"], svg: SVGS.trait },
+                    { id: 44, text: "موقفي من المفاجآت والهديا؟", options: ["بعشق المفاجآت جداً", "بحب الهدايا النفعية", "بتكسف من المفاجآت", "الأهم عندي الفكرة"], svg: SVGS.trait },
+                    { id: 45, text: "أكتر حاجة بتفرحني لما تعمليها معايا؟", options: ["تفتكريني بأكلي/هدية", "تسألي عليا من غير سبب", "تخططي لخروجة حلوة", "تسمعيني لما أكون زعلانة"], svg: SVGS.trait },
+                    { id: 46, text: "طبعي لما حد يعتذرلي بعد غلطة؟", options: ["بسامح فوراً وبنسى", "بقبل بس باخد وقتي", "بقلب الصفحة وصعبة أرجع", "بقبل بحدود جديدة"], svg: SVGS.trait },
+                    { id: 47, text: "هل أنا شخصية كتومة ولا منفتحة؟", options: ["كتومة جداً وأسراري مع نفسي", "منفتحة وبحكي لصاحبتي", "حسب راحة قلبي للشخص", "بحكي للكل بهزار"], svg: SVGS.trait },
+                    { id: 48, text: "درجة غيرتي على صاحباتي القريبين؟", options: ["بغير جداً ومش بحب الشراكة", "بغير بس بهزار ولطف", "مش بغير وعادي جداً", "بتبسط لما يتعرفوا على ناس"], svg: SVGS.trait }
+                ]
+            }
+        ];
+
+        /* ==========================================================================
+           3. State Management
+           ========================================================================== */
+        let state = {
+            creatorName: '',
+            targetQuestionCount: 10,
+            selectedQuestions: [], // { questionObj, creatorAnswerIndex }
+            pendingQuestion: null,
+            // Friend Quiz Play State
+            quizData: null,
+            friendName: '',
+            playCurrentIndex: 0,
+            playerAnswers: []
+        };
+
+        /* ==========================================================================
+           4. Navigation Helpers
+           ========================================================================== */
+        function showScreen(screenId) {
+            const screens = ['screen-welcome', 'screen-config', 'screen-select-questions', 'screen-share', 'screen-friend-welcome', 'screen-play', 'screen-result'];
+            screens.forEach(s => document.getElementById(s).classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        /* ==========================================================================
+           5. Quiz Creator Flow
+           ========================================================================== */
+        function startCreatorMode() {
+            showScreen('screen-config');
+            selectQuestionCount(10);
+        }
+
+        function selectQuestionCount(count) {
+            state.targetQuestionCount = count;
+            document.querySelectorAll('.count-opt').forEach(btn => {
+                btn.classList.remove('border-rose-500', 'bg-rose-50', 'text-rose-600');
+            });
+            const selectedBtn = document.getElementById(`count-btn-${count}`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-600');
+            }
+        }
+
+        function startQuestionSelection() {
+            const nameInput = document.getElementById('creator-name').value.trim();
+            if (!nameInput) {
+                alert('لطفاً ادخلي اسمكِ أولاً لنبدأ اللعبة ✨');
+                return;
+            }
+            state.creatorName = nameInput;
+            state.selectedQuestions = [];
+            showScreen('screen-select-questions');
+            renderQuestionSelectionStep();
+        }
+
+        function renderQuestionSelectionStep() {
+            const total = state.targetQuestionCount;
+            const current = state.selectedQuestions.length + 1;
+
+            document.getElementById('select-progress-text').innerText = `السؤال ${current} من ${total}`;
+            const percent = Math.round(((current - 1) / total) * 100);
+            document.getElementById('select-progress-percent').innerText = `${percent}%`;
+            document.getElementById('select-progress-bar').style.width = `${percent}%`;
+
+            document.getElementById('answer-setter-panel').classList.add('hidden');
+            const confirmBtn = document.getElementById('confirm-q-btn');
+            confirmBtn.disabled = true;
+            confirmBtn.className = "w-full py-2.5 bg-gray-300 text-white font-bold rounded-xl text-xs sm:text-sm transition-all";
+            state.pendingQuestion = null;
+
+            // Pick question group cyclically
+            const groupIndex = (current - 1) % QUESTION_GROUPS.length;
+            const group = QUESTION_GROUPS[groupIndex];
+
+            // Pick 4 candidates (rotate based on step)
+            const subOffset = Math.floor((current - 1) / QUESTION_GROUPS.length) * 4;
+            let candidates = group.questions.slice(subOffset % group.questions.length, (subOffset % group.questions.length) + 4);
+            if (candidates.length < 4) {
+                candidates = group.questions.slice(0, 4);
+            }
+
+            const grid = document.getElementById('question-candidates-grid');
+            grid.innerHTML = '';
+
+            candidates.forEach((q) => {
+                const card = document.createElement('div');
+                card.className = `option-card p-3 rounded-2xl cursor-pointer bg-white flex items-center gap-3 transition-all border-2`;
+                card.onclick = () => selectCandidateQuestion(q, card);
+                card.innerHTML = `
+                    <div class="flex-shrink-0 bg-pink-100 p-2 rounded-xl">
+                        ${q.svg}
+                    </div>
+                    <div class="flex-grow">
+                        <span class="text-[10px] font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded-full">${group.category}</span>
+                        <h4 class="text-xs sm:text-sm font-bold text-gray-800 mt-1">${q.text}</h4>
+                    </div>
+                    <div class="text-pink-300 text-base">
+                        <i class="fa-regular fa-circle-check"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectCandidateQuestion(questionObj, element) {
+            document.querySelectorAll('#question-candidates-grid .option-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+
+            state.pendingQuestion = { questionObj, creatorAnswerIndex: null };
+
+            const setterPanel = document.getElementById('answer-setter-panel');
+            const setterTitle = document.getElementById('selected-q-title');
+            const setterContainer = document.getElementById('options-setter-container');
+
+            setterTitle.innerText = questionObj.text;
+            setterContainer.innerHTML = '';
+
+            questionObj.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `p-2.5 rounded-xl border-2 border-pink-200 text-xs font-bold text-gray-700 hover:bg-pink-50 transition-all text-center`;
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    document.querySelectorAll('#options-setter-container button').forEach(b => {
+                        b.classList.remove('bg-rose-500', 'text-white', 'border-rose-500');
+                        b.classList.add('border-pink-200', 'text-gray-700');
+                    });
+                    btn.classList.remove('border-pink-200', 'text-gray-700');
+                    btn.classList.add('bg-rose-500', 'text-white', 'border-rose-500');
+
+                    state.pendingQuestion.creatorAnswerIndex = idx;
+                    const confirmBtn = document.getElementById('confirm-q-btn');
+                    confirmBtn.disabled = false;
+                    confirmBtn.classList.remove('bg-gray-300');
+                    confirmBtn.classList.add('cute-btn');
+                };
+                setterContainer.appendChild(btn);
+            });
+
+            setterPanel.classList.remove('hidden');
+            setterPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function confirmQuestionAndNext() {
+            if (!state.pendingQuestion || state.pendingQuestion.creatorAnswerIndex === null) return;
+
+            state.selectedQuestions.push(state.pendingQuestion);
+
+            if (state.selectedQuestions.length >= state.targetQuestionCount) {
+                finishQuizCreation();
+            } else {
+                renderQuestionSelectionStep();
+            }
+        }
+
+        /* ==========================================================================
+           6. Base64 URL Encoding & Link Generator
+           ========================================================================== */
+        function finishQuizCreation() {
+            const quizPayload = {
+                creator: state.creatorName,
+                questions: state.selectedQuestions.map(q => ({
+                    id: q.questionObj.id,
+                    ans: q.creatorAnswerIndex
+                }))
+            };
+
+            const jsonStr = JSON.stringify(quizPayload);
+            const encoded = btoa(encodeURIComponent(jsonStr));
+
+            const fullUrl = `${window.location.origin}${window.location.pathname}#quiz=${encoded}`;
+            document.getElementById('generated-quiz-link').value = fullUrl;
+            showScreen('screen-share');
+        }
+
+        function copyQuizLink() {
+            const input = document.getElementById('generated-quiz-link');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+
+            const btnText = document.getElementById('copy-btn-text');
+            btnText.innerText = 'تم النسخ بنجاح! 💖🎉';
+            setTimeout(() => {
+                btnText.innerText = 'نسخ رابط الاختبار 📋';
+            }, 3000);
+        }
+
+        function previewMyQuiz() {
+            const link = document.getElementById('generated-quiz-link').value;
+            const hash = link.substring(link.indexOf('#'));
+            window.location.hash = hash;
+            checkUrlForQuiz();
+        }
+
+        /* ==========================================================================
+           7. Friend Quiz Taking Flow
+           ========================================================================== */
+        function checkUrlForQuiz() {
+            const hash = window.location.hash;
+            if (hash && hash.includes('quiz=')) {
+                try {
+                    const encoded = hash.split('quiz=')[1];
+                    const decodedJson = decodeURIComponent(atob(encoded));
+                    const quizData = JSON.parse(decodedJson);
+
+                    if (quizData && quizData.questions && quizData.questions.length > 0) {
+                        state.quizData = quizData;
+                        document.getElementById('welcome-creator-name').innerText = quizData.creator;
+                        showScreen('screen-friend-welcome');
+                    }
+                } catch (e) {
+                    console.error("Error decoding quiz data", e);
+                }
+            }
+        }
+
+        function startFriendQuiz() {
+            const name = document.getElementById('friend-name-input').value.trim();
+            if (!name) {
+                alert('لطفاً ادخلي اسمكِ أولاً للبدء ✨');
+                return;
+            }
+            state.friendName = name;
+            state.playCurrentIndex = 0;
+            state.playerAnswers = [];
+
+            document.getElementById('play-creator-title').innerText = state.quizData.creator;
+            showScreen('screen-play');
+            renderPlayQuestion();
+        }
+
+        function getQuestionById(id) {
+            for (let g of QUESTION_GROUPS) {
+                for (let q of g.questions) {
+                    if (q.id === id) return q;
+                }
+            }
+            return QUESTION_GROUPS[0].questions[0];
+        }
+
+        function renderPlayQuestion() {
+            const quiz = state.quizData;
+            const currentIdx = state.playCurrentIndex;
+            const total = quiz.questions.length;
+
+            if (currentIdx >= total) {
+                calculateAndShowResult();
+                return;
+            }
+
+            const currentQMeta = quiz.questions[currentIdx];
+            const qObj = getQuestionById(currentQMeta.id);
+
+            document.getElementById('play-progress-text').innerText = `السؤال ${currentIdx + 1} من ${total}`;
+            const percent = Math.round(((currentIdx + 1) / total) * 100);
+            document.getElementById('play-progress-percent').innerText = `${percent}%`;
+            document.getElementById('play-progress-bar').style.width = `${percent}%`;
+
+            document.getElementById('play-q-svg').innerHTML = qObj.svg;
+            document.getElementById('play-q-text').innerText = qObj.text;
+
+            const optsContainer = document.getElementById('play-options-container');
+            optsContainer.innerHTML = '';
+
+            qObj.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-card p-3 rounded-xl bg-white text-right font-bold text-xs sm:text-sm text-gray-800 flex items-center justify-between border-2 border-pink-100`;
+                btn.innerHTML = `
+                    <span>${optText}</span>
+                    <i class="fa-solid fa-chevron-left text-pink-300 text-xs"></i>
+                `;
+                btn.onclick = () => handlePlayerAnswer(optIdx);
+                optsContainer.appendChild(btn);
+            });
+        }
+
+        function handlePlayerAnswer(selectedOptIdx) {
+            state.playerAnswers.push(selectedOptIdx);
+            state.playCurrentIndex++;
+            renderPlayQuestion();
+        }
+
+        /* ==========================================================================
+           8. Results Calculation & Scoring
+           ========================================================================== */
+        function calculateAndShowResult() {
+            const quiz = state.quizData;
+            const total = quiz.questions.length;
+            let correctCount = 0;
+
+            quiz.questions.forEach((q, idx) => {
+                if (state.playerAnswers[idx] === q.ans) {
+                    correctCount++;
+                }
+            });
+
+            const scorePercent = Math.round((correctCount / total) * 100);
+
+            const titleEl = document.getElementById('result-score-title');
+            const percentBadge = document.getElementById('result-percentage-badge');
+            const statusDesc = document.getElementById('result-status-desc');
+            const badgeBox = document.getElementById('result-badge-container');
+            const meterBar = document.getElementById('result-meter-bar');
+
+            document.getElementById('whatsapp-target-name').innerText = quiz.creator;
+            percentBadge.innerText = `${scorePercent}% إجابات صحيحة`;
+
+            if (scorePercent <= 30) {
+                // (0-30%): Block Alert
+                badgeBox.className = "w-24 h-24 mx-auto rounded-full bg-red-100 flex items-center justify-center text-4xl relative animate-pulse";
+                badgeBox.innerHTML = "🚫💔";
+                titleEl.innerText = "حظر فوراً! 🚫 (Block Alert)";
+                percentBadge.className = "inline-block px-3.5 py-1 rounded-full font-bold text-xs bg-red-100 text-red-600";
+                statusDesc.innerText = `يا ${state.friendName} أنتِ مش عارفة تفاصيل أو تفضيلات ${quiz.creator} خالص! البلوك مستنيكي فوراً لو مبعتيش أكل تصالحيها بية! 😂🏃‍♀️`;
+                meterBar.className = "h-2.5 rounded-full bg-red-500 transition-all duration-1000";
+            } else if (scorePercent <= 60) {
+                // (31-60%): Watch Out
+                badgeBox.className = "w-24 h-24 mx-auto rounded-full bg-yellow-100 flex items-center justify-center text-4xl relative";
+                badgeBox.innerHTML = "⚠️👀";
+                titleEl.innerText = "منطقة الخطر! ⚠️ (Watch Out)";
+                percentBadge.className = "inline-block px-3.5 py-1 rounded-full font-bold text-xs bg-yellow-100 text-yellow-700";
+                statusDesc.innerText = `عارفة شوية حاجات عن ${quiz.creator} ومفوتة حاجات تانية كتيييير.. ركزي الخروجة الجاية عشان متدخليش قائمة الحظر! ⚡`;
+                meterBar.className = "h-2.5 rounded-full bg-yellow-500 transition-all duration-1000";
+            } else if (scorePercent <= 85) {
+                // (61-85%): Bestie
+                badgeBox.className = "w-24 h-24 mx-auto rounded-full bg-pink-100 flex items-center justify-center text-4xl relative";
+                badgeBox.innerHTML = "💕✨";
+                titleEl.innerText = "صديقة مقربة جداً! 💕 (Bestie)";
+                percentBadge.className = "inline-block px-3.5 py-1 rounded-full font-bold text-xs bg-pink-100 text-pink-600";
+                statusDesc.innerText = `جميلة يا ${state.friendName}! حافظة أغلب حاجات وأكلة ${quiz.creator} المفضلة ومستحيل تحظرك أبداً! 🥰🌸`;
+                meterBar.className = "h-2.5 rounded-full bg-pink-400 transition-all duration-1000";
+            } else {
+                // (86-100%): Soulmate / BFF
+                badgeBox.className = "w-24 h-24 mx-auto rounded-full bg-purple-100 flex items-center justify-center text-4xl relative";
+                badgeBox.innerHTML = "👑💖";
+                titleEl.innerText = "صديقة الروح 👑 (Soulmate / BFF)";
+                percentBadge.className = "inline-block px-3.5 py-1 rounded-full font-bold text-xs bg-purple-100 text-purple-700";
+                statusDesc.innerText = `يا بخت ${quiz.creator} بيكي يا ${state.friendName}! أنتِ حافظة كل تفاصيلها وعادتها وأكلتها أكتر من نفسكِ.. أنتِ أختها مش مجرد صاحبتها! 🎉👑`;
+                meterBar.className = "h-2.5 rounded-full bg-purple-600 transition-all duration-1000";
+            }
+
+            showScreen('screen-result');
+            setTimeout(() => {
+                meterBar.style.width = `${scorePercent}%`;
+            }, 200);
+        }
+
+        function shareMyResultOnWhatsapp() {
+            const creator = state.quizData ? state.quizData.creator : 'صديقتي';
+            const text = `أنا ${state.friendName} وحصلت على ${document.getElementById('result-percentage-badge').innerText} في اختبار التفضيلات والصداقة بتاع ${creator}! شوفوا درجتكم وهل هيتم حظركم ولا لأ 😂💖`;
+            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+            window.open(waUrl, '_blank');
+        }
+
+        /* ==========================================================================
+           9. Helpers
+           ========================================================================== */
+        function toggleJoinModal() {
+            const modal = document.getElementById('join-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function loadPastedLink() {
+            const link = document.getElementById('paste-link-input').value.trim();
+            if (link && link.includes('#quiz=')) {
+                const hash = link.substring(link.indexOf('#'));
+                window.location.hash = hash;
+                toggleJoinModal();
+                checkUrlForQuiz();
+            } else {
+                alert('الرابط غير صحيح، تأكدي من نسخ الرابط الكامل.');
+            }
+        }
+
+        window.onload = function() {
+            checkUrlForQuiz();
+        };
+
+        window.onhashchange = function() {
+            checkUrlForQuiz();
+        };
+    </script>
+</body>
+</html>
